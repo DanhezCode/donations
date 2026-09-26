@@ -1,4 +1,25 @@
 const wallets = document.querySelectorAll(".wallet");
+const languageButtons = document.querySelectorAll("[data-language-switch]");
+
+function setLanguagePreference(language) {
+    const expiresAt = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `opinionated_ts_lang=${encodeURIComponent(language)}; expires=${expiresAt}; path=/; SameSite=Lax`;
+}
+
+languageButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const selectedLanguage = button.dataset.languageSwitch;
+
+        if (!selectedLanguage) {
+            return;
+        }
+
+        setLanguagePreference(selectedLanguage);
+        window.location.reload();
+    });
+});
 
 function fallbackCopy(text) {
     const textarea = document.createElement("textarea");
